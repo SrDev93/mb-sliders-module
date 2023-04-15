@@ -17,7 +17,9 @@ class SlidersController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->brand_id) {
+        if (\request()->session()->has('brand_id')){
+            $items = Slider::where('brand_id', \request()->session()->get('brand_id'))->get();
+        }elseif (Auth::user()->brand_id) {
             $items = Slider::where('brand_id', Auth::user()->brand_id)->get();
         }else{
             $items = Slider::all();
